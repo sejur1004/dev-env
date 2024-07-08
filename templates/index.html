@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit Data</title>
+  </head>
+  <body>
+    <h1>Submit Data</h1>
+    <form id="dataForm">
+      <label for="nickname">Nickname:</label><br />
+      <input type="text" id="nickname" name="nickname" /><br />
+      <label for="distance">Distance:</label><br />
+      <input type="text" id="distance" name="distance" /><br />
+      <label for="pace">Pace:</label><br />
+      <input type="text" id="pace" name="pace" /><br />
+      <label for="other">Other:</label><br />
+      <input type="text" id="other" name="other" /><br /><br />
+      <input type="button" value="Submit" onclick="submitData()" />
+    </form>
+
+    <script>
+      function submitData() {
+        const formData = {
+          nickname: document.getElementById("nickname").value,
+          distance: document.getElementById("distance").value,
+          pace: document.getElementById("pace").value,
+          other: document.getElementById("other").value,
+        };
+
+        fetch("/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "success") {
+              alert("Data submitted successfully");
+            } else {
+              alert("Submission failed");
+            }
+          });
+      }
+    </script>
+  </body>
+</html>
